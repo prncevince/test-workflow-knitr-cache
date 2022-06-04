@@ -8,7 +8,7 @@ on:
   workflow_call:
     inputs:
       cache:
-        default: 'setup-knitr-cache/knitr-cache_cache'
+        default: 'setup-knitr-cache/knitr-cache.Rmd'
         type: string
       cache-version:
         default: 1
@@ -43,7 +43,7 @@ jobs:
           dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)
           .libPaths(Sys.getenv("R_LIBS_USER"))
           options(repos = c(CRAN = '${{ matrix.r-repo }}'))
-          install.packages(c('rmarkdown', 'tictoc'))
+          install.packages(c('rmarkdown', 'tictoc'), type = 'binary')
       - name: Get R and OS version
         id: get-version
         shell: Rscript {0}
@@ -54,7 +54,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ inputs.cache }}
-          key: ${{ steps.get-version.outputs.os-version }}-${{ steps.get-version.outputs.r-version }}-${{ github.workflow }}-${{ github.action }}-${{ inputs.cache-version }}-${{ hashFiles(format('{0}/**', inputs.cache)) }}
+          key: ${{ steps.get-version.outputs.os-version }}-${{ steps.get-version.outputs.r-version }}-${{ github.workflow }}-${{ github.action }}-${{ inputs.cache-version }}-${{ hashFiles(format('{0}', inputs.cache)) }}
           restore-keys: ${{ steps.get-version.outputs.os-version }}-${{ steps.get-version.outputs.r-version }}-${{ github.workflow }}-${{ github.action }}-${{ inputs.cache-version }}-
       - name: Build site
         shell: Rscript {0}
