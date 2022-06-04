@@ -28,7 +28,6 @@ jobs:
       group: ghpages-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      RENV_CONFIG_REPOS_OVERRIDE: ${{ matrix.r-repo }}
     steps:
       - uses: actions/checkout@v3
       - uses: r-lib/actions/setup-pandoc@v2
@@ -42,8 +41,8 @@ jobs:
         run: |
           dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)
           .libPaths(Sys.getenv("R_LIBS_USER"))
-          options(repos = c(CRAN = '${{ matrix.r-repo }}'))
-          install.packages(c('rmarkdown', 'tictoc'), type = 'binary')
+          options(repos = c(RSPM = '${{ matrix.r-repo }}'))
+          install.packages(c('rmarkdown', 'tictoc'))
       - name: Get R and OS version
         id: get-version
         shell: Rscript {0}
