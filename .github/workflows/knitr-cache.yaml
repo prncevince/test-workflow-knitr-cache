@@ -37,12 +37,11 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev
-      - uses: Install R packages (no composite action using actions/cache)
-        with:
-          shell: Rscript {0}
-          run: |
-            options(repos = c(CRAN = '${{ matrix.r-repo }}'))
-            install.packages(c('rmarkdown', 'tictoc'))
+      - name: Install R packages (no composite action using actions/cache)
+        shell: Rscript {0}
+        run: |
+          options(repos = c(CRAN = '${{ matrix.r-repo }}'))
+          install.packages(c('rmarkdown', 'tictoc'))
       - name: Get R and OS version
         id: get-version
         shell: Rscript {0}
