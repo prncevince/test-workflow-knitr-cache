@@ -40,6 +40,8 @@ jobs:
       - name: Install R packages (no composite action using actions/cache)
         shell: Rscript {0}
         run: |
+          dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)
+          .libPaths(Sys.getenv("R_LIBS_USER"))
           options(repos = c(CRAN = '${{ matrix.r-repo }}'))
           install.packages(c('rmarkdown', 'tictoc'))
       - name: Get R and OS version
