@@ -14,8 +14,8 @@ jobs:
         os: [ubuntu-20.04]
         r: ['release']
         r-repo: ['https://packagemanager.rstudio.com/all/__linux__/focal/latest']
-        cache: 'setup-knitr-cache/knitr-cache.Rmd'
-        cache-version: 1
+        cache: ['setup-knitr-cache/knitr-cache.Rmd']
+        cache-version: [1]
     # Only runs PR jobs concurrently & uses same group as other ghpages jobs
     # PR jobs run in their own branch & do not deploy anything - so we assume they can run concurrently
     concurrency:
