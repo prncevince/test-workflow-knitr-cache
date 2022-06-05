@@ -39,6 +39,10 @@ three
 tictoc::tic()
 ```
 
+```{r}
+tictoc::tic()
+```
+
 Long Vector `cach.lazy=FALSE` test
 
 ```{r 3, cache=TRUE, dependson='2', cache.lazy=FALSE}
@@ -46,6 +50,10 @@ tictoc::tic()
 d <- matrix(1, three+(2^30)/three, three)
 
 rbind(head(d), tail(d))
+tictoc::toc()
+```
+
+```{r}
 tictoc::toc()
 ```
 

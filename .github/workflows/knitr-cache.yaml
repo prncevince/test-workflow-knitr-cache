@@ -23,6 +23,7 @@ jobs:
       group: ghpages-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      RENV_CONFIG_REPOS_OVERRIDE: ${{ matrix.r-repo }}
     steps:
       - uses: actions/checkout@v3
       - uses: r-lib/actions/setup-pandoc@v2
@@ -31,14 +32,15 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev
-      - name: Install R packages (no composite action using actions/cache)
-        shell: Rscript {0}
+      - name: Setup R & RSPM
         run: |
-          dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)
-          .libPaths(Sys.getenv("R_LIBS_USER"))
-          options(repos = c(RSPM = '${{ matrix.r-repo }}'))
-          options(HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(), paste(getRversion(), R.version["platform"], R.version["arch"], R.version["os"])))
-          install.packages(c('rmarkdown', 'tictoc'))
+          Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)'
+          echo "options(repos = c(RSPM = '${{ matrix.r-repo }}'))" >> .Rprofile
+          echo 'options(HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(), paste(getRversion(), R.version["platform"], R.version["arch"], R.version["os"])))' >> .Rprofile
+      - uses: prncevince/actions/setup-renv@v1.1.0
+        with:
+          type: 'restore'
+          lockfile: 'setup-knitr-cache/renv.lock'
       - name: Get R and OS version
         id: get-version
         shell: Rscript {0}
