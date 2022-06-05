@@ -40,7 +40,6 @@ jobs:
       - uses: prncevince/actions/setup-renv@v1.1.0
         with:
           type: 'restore'
-          lockfile: 'setup-knitr-cache/renv.lock'
       - name: Get R and OS version
         id: get-version
         shell: Rscript {0}
