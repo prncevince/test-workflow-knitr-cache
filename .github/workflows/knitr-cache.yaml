@@ -34,11 +34,11 @@ jobs:
           Rscript -e 'dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)'
           echo "options(repos = c(RSPM = '${{ matrix.r-repo }}'))" >> .Rprofile
           echo 'options(HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(), paste(getRversion(), R.version["platform"], R.version["arch"], R.version["os"])))' >> .Rprofile
-      - uses: prncevince/r-actions/setup-renv@v1.3.0
+      - uses: prncevince/r-actions/setup-renv@v1.4.0
         with:
           type: 'restore'
       - name: Restore knitr cache
-        uses: prncevince/r-actions/setup-knitr-cache/@v1.3.0
+        uses: prncevince/r-actions/setup-knitr-cache/@v1.4.0
         with:
           cache: setup-knitr-cache/knitr-cache_cache
       - name: Build site
